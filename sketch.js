@@ -30,11 +30,20 @@ function setup() {
     // carico dati della riga 
     let data = table.getRow(rowNumber).obj;
     
-    let xPos = outerPadding + colCount * (itemSize + innerPadding);
+    // prendo valore epr dimensione
+    let myValue = data["column0"];
 
+    // calcolo min e max
+    let allValues = table.getColumn("column0");
+    let minValue = min(allValues);
+    let maxValue = max(allValues);
+
+    let scaledValue = map (myValue, minValue, maxValue, 1, itemSize);
+
+    let xPos = outerPadding + colCount * (itemSize + innerPadding);
     let yPos = outerPadding + rowCount * (itemSize + innerPadding);
 
-    rect(xPos, yPos, itemSize, itemSize);
+    rect(xPos, yPos, scaledValue, scaledValue);
 
 // aumento colCount
 colCount++;

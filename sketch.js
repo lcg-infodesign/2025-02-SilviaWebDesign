@@ -22,11 +22,28 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0, 150, 150);
 
+  let colCount = 0;
+  let rowCount = 0;
+
   for (let rowNumber = 0; rowNumber < table.getRowCount(); rowNumber ++) {
-     
+    
     // carico dati della riga 
     let data = table.getRow(rowNumber).obj;
-    console.log(data);
+    
+    let xPos = outerPadding + colCount * (itemSize + innerPadding);
+
+    let yPos = outerPadding + rowCount * (itemSize + innerPadding);
+
+    rect(xPos, yPos, itemSize, itemSize);
+
+// aumento colCount
+colCount++;
+
+// controllo se siamo a fine riga 
+if(colCount == cols) {
+  colCount = 0;
+  rowCount++;
+}
   }
 // test 
 console.log ("tabella:", table);

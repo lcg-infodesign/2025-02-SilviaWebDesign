@@ -40,6 +40,19 @@ function setup() {
 
     let scaledValue = map (myValue, minValue, maxValue, 1, itemSize);
 
+    // variabile per il colore 
+    let value2 = data["column2"];
+    let allValues2 = table.getColumn("column2");
+    let minValue2 = min(allValues2);
+    let maxValue2 = max(allValues2);
+    let value2mapped = map(value2, minValue2, maxValue2, 0, 1);
+
+    let c1 = color("red");
+    let c2 = color("blue");
+
+    let mappedColor = lerpColor (c1, c2, value2mapped);
+    fill(mappedColor);
+
     let xPos = outerPadding + colCount * (itemSize + innerPadding);
     let yPos = outerPadding + rowCount * (itemSize + innerPadding);
 

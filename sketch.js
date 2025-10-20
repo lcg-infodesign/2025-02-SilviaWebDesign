@@ -7,9 +7,9 @@ function calcolaNumeroElementiPerRiga(windowWidth, outerPadding, glifoSize, inne
 function calcolaDimensioneCerchioFinale(data, glifoSize) {
   const dimesioneCerchioIniziale = data["column0"];
   const dimensioniTotaliCerchio = table.getColumn("column0");
-  const dimensioniMinimeCerchio = min(dimensioniTotaliCerchio);
-  const dimensioniMassimeCerchio = max(dimensioniTotaliCerchio);
-  return map(dimesioneCerchioIniziale, dimensioniMinimeCerchio, dimensioniMassimeCerchio, 1, glifoSize);
+  const dimensioneMinimaCerchio = min(dimensioniTotaliCerchio);
+  const dimensioneMassimaCerchio = max(dimensioniTotaliCerchio);
+  return map(dimesioneCerchioIniziale, dimensioneMinimaCerchio, dimensioneMassimaCerchio, 1, glifoSize);
 }
 
 
@@ -42,7 +42,7 @@ function setup() {
     
     // carico dati della riga 
     const data = table.getRow(i).obj;
-    const dimensioneCerchioFinale = calcolaDimensioneCerchioFinale(data, dimensioneMassimaGlifo);
+    const dimensioneCerchio = calcolaDimensioneCerchioFinale(data, dimensioneMassimaGlifo);
 
 // DEFNISCO I COLORI IN BASE AI VALORI DELLA COLONNA 2 //////////////////////////
     // variabile per il colore 
@@ -54,59 +54,59 @@ function setup() {
 /////////////////////////////////////////////////////////////////////////////////////
 
     // DEFINISCO QUALI COLORI VOGLIO MAPPARE
-    let color1 = color(255, 0, 0, 150);
-    let color2 = color(150, 0, 150, 100);
+    let colore1 = color(255, 0, 0, 150);
+    let colore2 = color(150, 0, 150, 100);
     
     // MAPPO IL RANGE DI SFUMATURE TRA COLOR1 E COLOR2
-    let mappedColor = lerpColor (color1, color2, valoreColoreMappato);
+    let coloreRiempimento = lerpColor (colore1, colore2, valoreColoreMappato);
 
     // DISEGNO CERCHIO CON SCALED VALUE///////////////////////////
-    fill(mappedColor);
+    fill(coloreRiempimento);
     noStroke();
     rectMode(CENTER);
     // calcola posizione cella
     let xPos = margineEsterno + numeroColonna * (dimensioneMassimaGlifo + spazioTraGlifi);
     let yPos = margineEsterno + numeroRiga * (dimensioneMassimaGlifo + spazioTraGlifi);
-    circle(xPos, yPos, dimensioneCerchioFinale);
+    circle(xPos, yPos, dimensioneCerchio);
     ////////////////////////////////////////////////////////////////////
 
     // definisco DIMENSIONI QUADRATO IN BASE AI DATI DELLA COLONNA 0 /////////
     // prendo size value dalla colonna 0
-    let quadValue = data["column3"];
+    const dimensioneQuadratoIniziale = data["column3"];
 
     // ottieni minimo e massimo da tutti i dati di colonna 0
-    let allQuadValues = table.getColumn("column3");
-    let minQuadValue = min(allQuadValues);
-    let maxQuadValue = max(allQuadValues);
-    let quadSize = map (quadValue, minQuadValue, maxQuadValue, 1, dimensioneMassimaGlifo);
+    const dimensioniTotaliQuadrato = table.getColumn("column3");
+    const dimensioneMinimaQuadrato = min(dimensioniTotaliQuadrato);
+    const dimensioneMassimaQuadrato = max(dimensioniTotaliQuadrato);
+    const dimensioneQuadrato = map (dimensioneQuadratoIniziale, dimensioneMinimaQuadrato, dimensioneMassimaQuadrato, 1, dimensioneMassimaGlifo);
 ////////////////////////////////////////////////////////////////////////////////////
 
     // CREO UN QUADRATO CON QUADSIZE//////////
-    color1 = color(0, 100, 0, 100);
-    color2 = color(255, 255, 0, 150);
-    mappedColor = lerpColor (color1, color2, valoreColoreMappato);
-    fill(mappedColor);
-    square(xPos, yPos, quadSize);
+    colore1 = color(0, 100, 0, 100);
+    colore2 = color(255, 255, 0, 150);
+    coloreRiempimento = lerpColor (colore1, colore2, valoreColoreMappato);
+    fill(coloreRiempimento);
+    square(xPos, yPos, dimensioneQuadrato);
     ////////////////////////////////////////////////////////
 
     // definisco AMPIEZZA ANGOLO IN BASE AI DATI DELLA COLONNA 0 /////////
     // prendo size value dalla colonna 0
-    let rotationValue = data["column1"];
+    const AmpiezzaAngoloIniziale = data["column1"];
 
     // ottieni minimo e massimo da tutti i dati di colonna 0
-    let allRotationValues = table.getColumn("column1");
-    let minRotationValue = min(allRotationValues);
-    let maxRotationValue = max(allRotationValues);
-    let angle = map (rotationValue, minRotationValue, maxRotationValue, 1, ampiezzaMassimaAngolo);
+    const valoriAmpiezzeTotali = table.getColumn("column1");
+    const valoreMinimoAngolo = min(valoriAmpiezzeTotali);
+    const valoremassimoAngolo = max(valoriAmpiezzeTotali);
+    const angolo = map (AmpiezzaAngoloIniziale, valoreMinimoAngolo, valoremassimoAngolo, 1, ampiezzaMassimaAngolo);
     ////////////////////////////////////////////////////////////////////////////////////
 
     //CREO UN ARC TRAMITE ANGLE////////////////////////////////////////
     angleMode(DEGREES);
-    color1 = color(0, 150, 100, 200);
-    color2 = color(150, 0, 200, 150);
-    mappedColor = lerpColor (color1, color2, valoreColoreMappato);
-    fill(mappedColor);
-    arc(xPos, yPos, dimensioneMassimaGlifo, dimensioneMassimaGlifo, angle, PI + QUARTER_PI)
+    colore1 = color(0, 150, 100, 200);
+    colore2 = color(150, 0, 200, 150);
+    coloreRiempimento = lerpColor (colore1, colore2, valoreColoreMappato);
+    fill(coloreRiempimento);
+    arc(xPos, yPos, dimensioneMassimaGlifo, dimensioneMassimaGlifo, angolo, PI + QUARTER_PI)
     /////////////////////////////////////////////////////////////////
 
     // aumento colCount

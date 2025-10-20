@@ -27,6 +27,7 @@ function calcolaDimensioneQuadrato(data, dimensioneMassimaGlifo) {
     const dimensioneMassimaQuadrato = max(dimensioniTotaliQuadrato);
     return map (dimensioneQuadratoIniziale, dimensioneMinimaQuadrato, dimensioneMassimaQuadrato, 1, dimensioneMassimaGlifo);
 }
+
 function preload() {
   table = loadTable("dataset.csv", "csv", "header");
 }
@@ -76,7 +77,7 @@ function setup() {
     ////////////////////////////////////////////////////////////////////
 
     const dimensioneQuadrato = calcolaDimensioneQuadrato(data);
-    
+
     // CREO UN QUADRATO CON QUADSIZE//////////
     colore1 = color(0, 100, 0, 100);
     colore2 = color(255, 255, 0, 150);

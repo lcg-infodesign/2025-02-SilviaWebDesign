@@ -59,6 +59,10 @@ function setup() {
     const dimensioneCerchio = calcolaDimensioneCerchio(data, dimensioneMassimaGlifo);
     const indicatoreColoreMappato = definisciIndicatoreColoreMappato(data);
 
+     // calcola posizione cella
+    let xPos = margineEsterno + numeroColonna * (dimensioneMassimaGlifo + spazioTraGlifi);
+    let yPos = margineEsterno + numeroRiga * (dimensioneMassimaGlifo + spazioTraGlifi);
+
     // DEFINISCO QUALI COLORI VOGLIO MAPPARE
     let colore1 = color(255, 0, 0, 150);
     let colore2 = color(150, 0, 150, 100);
@@ -70,15 +74,12 @@ function setup() {
     fill(coloreRiempimento);
     noStroke();
     rectMode(CENTER);
-    // calcola posizione cella
-    let xPos = margineEsterno + numeroColonna * (dimensioneMassimaGlifo + spazioTraGlifi);
-    let yPos = margineEsterno + numeroRiga * (dimensioneMassimaGlifo + spazioTraGlifi);
     circle(xPos, yPos, dimensioneCerchio);
     ////////////////////////////////////////////////////////////////////
 
     const dimensioneQuadrato = calcolaDimensioneQuadrato(data);
 
-    // CREO UN QUADRATO CON QUADSIZE//////////
+    // CREO FIGURA QUADRATO //////////
     colore1 = color(0, 100, 0, 100);
     colore2 = color(255, 255, 0, 150);
     coloreRiempimento = lerpColor (colore1, colore2, indicatoreColoreMappato);

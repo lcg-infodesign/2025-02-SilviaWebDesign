@@ -4,7 +4,7 @@ function calcolaNumeroElementiPerRiga(windowWidth, outerPadding, glifoSize, inne
   return floor((windowWidth - outerPadding * 2) / (glifoSize + innerPadding));
 }
 
-function calcolaDimensioneCerchioFinale(data, glifoSize) {
+function calcolaDimensioneCerchio(data, glifoSize) {
   const dimesioneCerchioIniziale = data["column0"];
   const dimensioniTotaliCerchio = table.getColumn("column0");
   const dimensioneMinimaCerchio = min(dimensioniTotaliCerchio);
@@ -12,8 +12,21 @@ function calcolaDimensioneCerchioFinale(data, glifoSize) {
   return map(dimesioneCerchioIniziale, dimensioneMinimaCerchio, dimensioneMassimaCerchio, 1, glifoSize);
 }
 
+function definisciIndicatoreColoreMappato(data) {
+  const indicatoreColore = data["column2"];
+    const listaCompletaColori = table.getColumn("column2");
+    const indicatoreMinimoColore = min(listaCompletaColori);
+    const indicatoreMassimoColore = max(listaCompletaColori);
+    return map(indicatoreColore, indicatoreMinimoColore, indicatoreMassimoColore, 0, 1);
+}
 
-
+function calcolaDimensioneQuadrato(data, dimensioneMassimaGlifo) {
+    const dimensioneQuadratoIniziale = data["column3"];
+    const dimensioniTotaliQuadrato = table.getColumn("column3");
+    const dimensioneMinimaQuadrato = min(dimensioniTotaliQuadrato);
+    const dimensioneMassimaQuadrato = max(dimensioniTotaliQuadrato);
+    return map (dimensioneQuadratoIniziale, dimensioneMinimaQuadrato, dimensioneMassimaQuadrato, 1, dimensioneMassimaGlifo);
+}
 function preload() {
   table = loadTable("dataset.csv", "csv", "header");
 }
@@ -42,25 +55,17 @@ function setup() {
     
     // carico dati della riga 
     const data = table.getRow(i).obj;
-    const dimensioneCerchio = calcolaDimensioneCerchioFinale(data, dimensioneMassimaGlifo);
-
-// DEFNISCO I COLORI IN BASE AI VALORI DELLA COLONNA 2 //////////////////////////
-    // variabile per il colore 
-    const indicatoreColore = data["column2"];
-    const listaCompletaColori = table.getColumn("column2");
-    const indicatoreMinimoColore = min(listaCompletaColori);
-    const indicatoreMassimoColore = max(listaCompletaColori);
-    const valoreColoreMappato = map(indicatoreColore, indicatoreMinimoColore, indicatoreMassimoColore, 0, 1);
-/////////////////////////////////////////////////////////////////////////////////////
+    const dimensioneCerchio = calcolaDimensioneCerchio(data, dimensioneMassimaGlifo);
+    const indicatoreColoreMappato = definisciIndicatoreColoreMappato(data);
 
     // DEFINISCO QUALI COLORI VOGLIO MAPPARE
     let colore1 = color(255, 0, 0, 150);
     let colore2 = color(150, 0, 150, 100);
     
-    // MAPPO IL RANGE DI SFUMATURE TRA COLOR1 E COLOR2
-    let coloreRiempimento = lerpColor (colore1, colore2, valoreColoreMappato);
+    // MAPPO IL RANGE DI SFUMATURE TRA COLORE1 E COLORE2
+    let coloreRiempimento = lerpColor (colore1, colore2, indicatoreColoreMappato);
 
-    // DISEGNO CERCHIO CON SCALED VALUE///////////////////////////
+    // DISEGNO CERCHIO ///////////////////////////
     fill(coloreRiempimento);
     noStroke();
     rectMode(CENTER);
@@ -70,21 +75,12 @@ function setup() {
     circle(xPos, yPos, dimensioneCerchio);
     ////////////////////////////////////////////////////////////////////
 
-    // definisco DIMENSIONI QUADRATO IN BASE AI DATI DELLA COLONNA 0 /////////
-    // prendo size value dalla colonna 0
-    const dimensioneQuadratoIniziale = data["column3"];
-
-    // ottieni minimo e massimo da tutti i dati di colonna 0
-    const dimensioniTotaliQuadrato = table.getColumn("column3");
-    const dimensioneMinimaQuadrato = min(dimensioniTotaliQuadrato);
-    const dimensioneMassimaQuadrato = max(dimensioniTotaliQuadrato);
-    const dimensioneQuadrato = map (dimensioneQuadratoIniziale, dimensioneMinimaQuadrato, dimensioneMassimaQuadrato, 1, dimensioneMassimaGlifo);
-////////////////////////////////////////////////////////////////////////////////////
-
+    const dimensioneQuadrato = calcolaDimensioneQuadrato(data);
+    
     // CREO UN QUADRATO CON QUADSIZE//////////
     colore1 = color(0, 100, 0, 100);
     colore2 = color(255, 255, 0, 150);
-    coloreRiempimento = lerpColor (colore1, colore2, valoreColoreMappato);
+    coloreRiempimento = lerpColor (colore1, colore2, indicatoreColoreMappato);
     fill(coloreRiempimento);
     square(xPos, yPos, dimensioneQuadrato);
     ////////////////////////////////////////////////////////
@@ -104,7 +100,7 @@ function setup() {
     angleMode(DEGREES);
     colore1 = color(0, 150, 100, 200);
     colore2 = color(150, 0, 200, 150);
-    coloreRiempimento = lerpColor (colore1, colore2, valoreColoreMappato);
+    coloreRiempimento = lerpColor (colore1, colore2, indicatoreColoreMappato);
     fill(coloreRiempimento);
     arc(xPos, yPos, dimensioneMassimaGlifo, dimensioneMassimaGlifo, angolo, PI + QUARTER_PI)
     /////////////////////////////////////////////////////////////////

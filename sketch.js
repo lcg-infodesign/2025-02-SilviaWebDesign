@@ -28,6 +28,14 @@ function calcolaDimensioneQuadrato(data, dimensioneMassimaGlifo) {
     return map (dimensioneQuadratoIniziale, dimensioneMinimaQuadrato, dimensioneMassimaQuadrato, 1, dimensioneMassimaGlifo);
 }
 
+function calcolaAmpiezzaAngolo(data, ampiezzaMassimaAngolo) {
+    const AmpiezzaAngoloIniziale = data["column1"];
+    const valoriAmpiezzeTotali = table.getColumn("column1");
+    const valoreMinimoAngolo = min(valoriAmpiezzeTotali);
+    const valoremassimoAngolo = max(valoriAmpiezzeTotali);
+    return map (AmpiezzaAngoloIniziale, valoreMinimoAngolo, valoremassimoAngolo, 1, ampiezzaMassimaAngolo);
+}
+
 function preload() {
   table = loadTable("dataset.csv", "csv", "header");
 }
@@ -77,7 +85,7 @@ function setup() {
     circle(xPos, yPos, dimensioneCerchio);
     ////////////////////////////////////////////////////////////////////
 
-    const dimensioneQuadrato = calcolaDimensioneQuadrato(data);
+    const dimensioneQuadrato = calcolaDimensioneQuadrato(data, dimensioneMassimaGlifo);
 
     // CREO FIGURA QUADRATO //////////
     colore1 = color(0, 100, 0, 100);
@@ -86,18 +94,7 @@ function setup() {
     fill(coloreRiempimento);
     square(xPos, yPos, dimensioneQuadrato);
     ////////////////////////////////////////////////////////
-
-    // definisco AMPIEZZA ANGOLO IN BASE AI DATI DELLA COLONNA 0 /////////
-    // prendo size value dalla colonna 0
-    const AmpiezzaAngoloIniziale = data["column1"];
-
-    // ottieni minimo e massimo da tutti i dati di colonna 0
-    const valoriAmpiezzeTotali = table.getColumn("column1");
-    const valoreMinimoAngolo = min(valoriAmpiezzeTotali);
-    const valoremassimoAngolo = max(valoriAmpiezzeTotali);
-    const angolo = map (AmpiezzaAngoloIniziale, valoreMinimoAngolo, valoremassimoAngolo, 1, ampiezzaMassimaAngolo);
-    ////////////////////////////////////////////////////////////////////////////////////
-
+    const angolo = calcolaAmpiezzaAngolo(data, ampiezzaMassimaAngolo);
     //CREO UN ARC TRAMITE ANGLE////////////////////////////////////////
     angleMode(DEGREES);
     colore1 = color(0, 150, 100, 200);

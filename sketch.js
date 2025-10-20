@@ -70,7 +70,7 @@ function setup() {
      // calcola posizione cella
     let xPos = margineEsterno + numeroColonna * (dimensioneMassimaGlifo + spazioTraGlifi);
     let yPos = margineEsterno + numeroRiga * (dimensioneMassimaGlifo + spazioTraGlifi);
-
+    
     // DEFINISCO QUALI COLORI VOGLIO MAPPARE
     let colore1 = color(255, 0, 0, 150);
     let colore2 = color(150, 0, 150, 100);
@@ -93,9 +93,11 @@ function setup() {
     coloreRiempimento = lerpColor (colore1, colore2, indicatoreColoreMappato);
     fill(coloreRiempimento);
     square(xPos, yPos, dimensioneQuadrato);
-    ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+
     const angolo = calcolaAmpiezzaAngolo(data, ampiezzaMassimaAngolo);
-    //CREO UN ARC TRAMITE ANGLE////////////////////////////////////////
+
+    //CREO UN ARC ////////////////////////////////////////
     angleMode(DEGREES);
     colore1 = color(0, 150, 100, 200);
     colore2 = color(150, 0, 200, 150);
@@ -103,7 +105,7 @@ function setup() {
     fill(coloreRiempimento);
     arc(xPos, yPos, dimensioneMassimaGlifo, dimensioneMassimaGlifo, angolo, PI + QUARTER_PI)
     /////////////////////////////////////////////////////////////////
-
+    
     // aumento colCount
     numeroColonna++;
 
@@ -115,8 +117,7 @@ function setup() {
   }
 // test 
 console.log ("tabella:", table);
-console.log ("colonne:", numeroElementiPerRiga);
-console.log ("cols:", numeroElementiPerRiga, "rows:", numeroRigheNecessarie);
+console.log ("colonne:", numeroElementiPerRiga, "righe:", numeroRigheNecessarie);
 
 }
 
